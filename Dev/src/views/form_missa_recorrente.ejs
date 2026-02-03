@@ -1,0 +1,110 @@
+<%- include('includes/header'); %>
+
+<div class="row justify-content-center">
+    <div class="col-lg-6 shadow-lg rounded-3 bg-light my-5 py-5 rounded-3 shadow-lg border-top border-primary border-5">
+        <% if (status === "sucesso") { %>
+        <div id="mensagem_sucesso" class="w-50 mx-auto text-center alert alert-success alert-dismissible fade-show border rounded-3" role="alert">
+            Missa registrada com sucesso.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <% } else if (status === "erro") { %>
+            <div id="mensagem_erro" class="w-50 mx-auto text-center alert alert-danger alert-dismissible fade-show border rounded-3" role="alert">
+            Ocorreu algum erro ao registrar a missa.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <% } %>
+        <h2 class="text text-center">Insira abaixo os dados da missa recorrente</h2>
+        <form method="POST">
+            <div id="mensagem_titulo_vazio" class="alert alert-danger my-2 text-center" style="display: none">
+                Campo "Titulo" não pode ser vazio.
+            </div>
+            <div class="form-floating my-4">
+                <input class="form-control" type="text" id="titulo_missa" placeholder="Titulo" name="titulo">
+                <label for="titulo_missa">Titulo: </label>
+            </div>
+            <div id="mensagem_qtd_min_lideranca_vazio" class="alert alert-danger my-2 text-center" style="display: none">
+                Campo "Quantidade Mínima De Lideranças" não pode ser vazio. 
+            </div>
+            <div id="mensagem_qtd_min_lideranca_ultrapassa" class="alert alert-danger my-2 text-center" style="display: none">
+                Campo "Quantidade Mínima De Lideranças" deve ser maior que 4.
+            </div>
+            <div class="form-floating my-4">
+                <input id="qtd_min_lideranca_missa" class="form-control" type="number" placeholder="qtd_min_lideranca" name="qtd_min" required min="4">
+                <label for="qtd_min_lideranca_missa">Quantidade Minima De Lideranças: </label>
+            </div>
+            <div class="form-floating my-4">
+                <input class="form-control" type="text" id="descrição_missa" placeholder="descrição" name="desc">
+                <label for="descrição_missa">Descrição (Opcional): </label>
+            </div>
+            <div class="container row">
+                <h4 class="text text-secondary text-center mb-3">Dias Da Semana:</h4>
+                <div class="form-check col">
+                    <input class="form-check-input" type="checkbox" id="checkSegunda" name="dias_semana[]" value="segunda-feira">
+                    <label class="form-check-label" for="checkSegunda">
+                        Segunda-Feira
+                    </label>
+                </div>
+                <div class="form-check col">    
+                    <input class="form-check-input" type="checkbox" id="checkTerca" name="dias_semana[]" value="terça-feira">
+                    <label class="form-check-label" for="checkTerca">
+                        Terça-Feira
+                    </label>
+                </div>    
+                <div class="form-check col">
+                    <input class="form-check-input" type="checkbox" id="checkQuarta" name="dias_semana[]" value="quarta-feira">
+                    <label class="form-check-label" for="checkQuarta">
+                        Quarta-Feira
+                    </label>
+                </div>
+                <div class="form-check col">
+                    <input class="form-check-input" type="checkbox" id="checkQuinta" name="dias_semana[]" value="quinta-feira">
+                    <label class="form-check-label" for="checkQuinta">
+                        Quinta-Feira
+                    </label>
+                </div>
+                <div class="form-check col">
+                    <input class="form-check-input" type="checkbox" id="checkSexta" name="dias_semana[]" value="sexta-feira">
+                    <label class="form-check-label" for="checkSexta">
+                        Sexta-Feira
+                    </label>
+                </div>
+                <div class="form-check col">
+                    <input class="form-check-input" type="checkbox" id="checkSábado" name="dias_semana[]" value="sábado">
+                    <label class="form-check-label" for="checkSábado">
+                        Sábado
+                    </label>
+                </div>
+                <div class="form-check col">
+                    <input class="form-check-input" type="checkbox" id="checkDomingo" name="dias_semana[]" value="domingo">
+                    <label class="form-check-label" for="checkDomingo">
+                        Domingo
+                    </label>
+                </div>
+            </div>
+            <div class="container row mt-3">
+                <div class="col form-floating">
+                    <input class="form-control" type="date" id="data_inicial_missa" class="datas_missa" placeholder="Data" name="data_inicial">
+                    <label for="data_inicial_missa">Data Inicial: </label>
+                </div>
+                <div class="col form-floating">
+                    <input class="form-control" type="date" id="data_final_missa" class="datas_missa" placeholder="Data" name="data_final">
+                    <label for="data_final_missa">Data Final: </label>
+                </div>
+            </div>
+            <div id="mensagem_hora_vazio" class="alert alert-danger my-2 text-center" style="display: none">
+                Campo "Hora" não pode ser vazio. 
+            </div>
+            <div class="form-floating my-4">
+                <input class="form-control" type="time" id="hora_missa" placeholder="Hora" name="hora">
+                 <label for="hora_missa">Hora: </label>
+            </div>
+                <div class="row justify-content-center">
+                <button id="botao_salvar_missa" type="submit" class="btn btn-primary btn-lg fw-bold w-25 mt-3"><i class="bi bi-save"></i>Salvar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/public/js/formMissa.js"></script>
+
+<%- include("includes/footer"); %>

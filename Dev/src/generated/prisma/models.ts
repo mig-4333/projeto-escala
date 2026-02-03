@@ -8,10 +8,10 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/disponibilidade_lideranca'
-export type * from './models/lideranca'
-export type * from './models/lideranca_missa'
-export type * from './models/missa'
-export type * from './models/pastoral'
-export type * from './models/registro_escala'
-export type * from './commonInputTypes'
+export type * from './models/disponibilidade_lideranca.ts'
+export type * from './models/lideranca.ts'
+export type * from './models/lideranca_missa.ts'
+export type * from './models/missa.ts'
+export type * from './models/pastoral.ts'
+export type * from './models/registro_escala.ts'
+export type * from './commonInputTypes.ts'

@@ -1,0 +1,90 @@
+<%- include('includes/header'); %>
+
+<div class="mt-5">
+    <a href="/liderancas/new" class="btn btn-primary">Cadastrar Nova Liderança</a>
+    <div class="container text-center border border-dark rounded-3 shadow-lg mt-1">
+            <table class="table table-hover align-middle caption-top">            
+                    <thead>
+                        <tr>
+                            <th class="col w1">ID</th>
+                            <th class="col w3">Nome</th>
+                            <th class="col w3">Contato</th>
+                            <th class="col w3">Data De Nascimento</th>
+                            <th class="col w1"></th>
+                            <th class="col w1"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <% liderancas.forEach(lideranca => { %>
+                            <tr class="linha_excluir">
+                                <th><%= lideranca.id  %></th>
+                                <th><%= lideranca.nome   %></th>
+                                <th><%= lideranca.contato   %></th>
+                                <th><a href="/liderancas/delete/<%= lideranca.id %>" class="btn btn-danger btn-excluir">Excluir</a></th>
+                                <th><a href="#" class="btn-editar btn btn-warning"  data_id="<%= lideranca.id %>" data-bs-toggle="modal" data-bs-target="#modal_edicao">Editar</a></th>
+                            </tr>
+                        <% }); %>
+                    </tbody>       
+            </table>
+            <div>
+                <% if (status.resultado !== undefined){  %>
+                    <%  if (status.resultado === "sucesso"){   %>
+                            <div class="alert alert-success alert-dismissible fade-show" role="alert">
+                                Liderança editada com sucesso.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                    <% } else if (status.resultado === "erro"){ %>
+                            <div class="alert alert-danger alert-dismissible fade-show" role="alert">
+                                Ocorreu um erro ao editar a liderança. 
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                    <%    }  %>
+                <%  }  %>
+            </div>
+            <div class="modal" id="modal_edicao" data-bs-backdrop="static" data-bs-keyboard="false">
+                <div class="modal-dialog">        
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="text pt-1">Edição de cadastro</h2>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>      
+                        <div class="modal-body">                               
+                            
+                            <form method="POST" id="form_edicao_lideranca" action="/liderancas/edit">
+                                <input type="hidden" name="_method" value="PUT">
+                                <input type="hidden" name="id" id="lideranca_id_edit" value="0">
+                                <div id="mensagem_nome_vazio" class="alert alert-danger my-2 text-center" style="display: none">
+                                    Campo nome não pode ser vazio.
+                                </div>
+                                <div id="mensagem_nome_apenas_letras" class="alert alert-danger my-2 text-center" style="display: none">
+                                    Campo nome deve conter apenas letras.
+                                </div>
+                                <div class="form-floating my-3">
+                                    <input type="text" class="form-control" name="nome" id="nome_form" placeholder="Nome">
+                                    <label for="nome_form">Nome</label>
+                                </div>
+                                <div id="mensagem_contato_vazio" class="alert alert-danger text-center my-2" style="display: none">
+                                    Contato não pode ser vazio.
+                                </div>
+                                <div id="mensagem_contato_formato" class="alert alert-danger text-center my-2" style="display: none">
+                                    Contato deve seguir formato (XX) 9XXXX-XXXX.
+                                </div>
+                                <div class="form-floating my-3">
+                                    <input type="text" class="form-control" name="contato" id="contato_form" placeholder="contato">
+                                    <label for="contato_form">Contato</label>
+                                </div>
+                                <button id="botao_salvar" class="btn btn-primary btn-enviar-edicao" type="submit" disabled>
+                                    Salvar
+                                </button>
+                            </form>
+                        
+                        </div>                   
+                    </div>          
+                </div>
+            </div>
+    </div>
+</div>
+
+<script src="/public/js/validacaoForm.js"></script>
+
+<%- include("includes/footer"); %>

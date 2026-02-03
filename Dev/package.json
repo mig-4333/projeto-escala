@@ -1,0 +1,32 @@
+{
+    "name": "desenvolvimento",
+    "version": "1.0.0",
+    "main": "app.js",
+    "type": "module",
+    "scripts": {
+        "start": "ts-node app.js",
+        "dev": "nodemon -e js,ejs -L --watch src --watch app.js --exec \"node --import tsx\" app.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "@prisma/adapter-pg": "^7.3.0",
+        "@prisma/client": "^7.3.0",
+        "date-fns": "^4.1.0",
+        "dotenv": "^17.2.3",
+        "ejs": "^3.1.10",
+        "express": "^5.2.1",
+        "method-override": "^3.0.0",
+        "pg": "^8.16.3",
+        "tsx": "^4.21.0"
+    },
+    "devDependencies": {
+        "@types/node": "^24.10.1",
+        "@types/pg": "^8.15.6",
+        "nodemon": "^3.1.11",
+        "prisma": "^7.3.0",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.9.3"
+    }
+}

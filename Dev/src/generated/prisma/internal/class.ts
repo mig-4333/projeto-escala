@@ -12,13 +12,13 @@
  */
 
 import * as runtime from "@prisma/client/runtime/client"
-import type * as Prisma from "./prismaNamespace"
+import type * as Prisma from "./prismaNamespace.ts"
 
 
 const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [],
-  "clientVersion": "7.1.0",
-  "engineVersion": "ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba",
+  "clientVersion": "7.3.0",
+  "engineVersion": "9d6ad21cbbceab97458517b147a6a09ff43aa735",
   "activeProvider": "postgresql",
   "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel disponibilidade_lideranca {\n  id             Int       @id(map: \"pk_disponibilidade_lideranca\") @default(autoincrement())\n  id_lideranca   Int?\n  mes_referencia String    @db.VarChar(20)\n  qtd_max_missas Int\n  lideranca      lideranca @relation(fields: [id], references: [id], onUpdate: Restrict, map: \"fk_disponibilidade_lideranca\")\n\n  @@index([id], map: \"fki_d\")\n}\n\nmodel lideranca {\n  id                        Int                        @id(map: \"pk_lideranca\") @default(autoincrement())\n  nome                      String                     @db.VarChar(100)\n  contato                   String?                    @db.VarChar(20)\n  id_pastoral               Int?\n  data_nascimento           DateTime?                  @db.Date\n  disponibilidade_lideranca disponibilidade_lideranca?\n  pastoral                  pastoral?                  @relation(fields: [id_pastoral], references: [id], onDelete: NoAction, onUpdate: NoAction, map: \"fk_lideranca\")\n  lideranca_missa           lideranca_missa[]\n  registro_escala           registro_escala[]\n}\n\nmodel lideranca_missa {\n  id_missa     Int\n  id_lideranca Int\n  lideranca    lideranca @relation(fields: [id_lideranca], references: [id], onDelete: NoAction, onUpdate: NoAction, map: \"fk_id_lideranca\")\n  missa        missa     @relation(fields: [id_missa], references: [id], onDelete: NoAction, onUpdate: NoAction, map: \"fk_id_missa\")\n\n  @@id([id_missa, id_lideranca])\n}\n\nmodel missa {\n  id                 Int               @id(map: \"pk_missa\") @default(autoincrement())\n  data_hora          DateTime          @db.Timestamp(6)\n  qtd_min_liderancas Int\n  descricao          String?           @db.VarChar(200)\n  titulo             String?           @db.VarChar(200)\n  lideranca_missa    lideranca_missa[]\n  registro_escala    registro_escala[]\n}\n\nmodel pastoral {\n  id        Int         @id(map: \"pk_pastoral\") @default(autoincrement())\n  nome      String      @db.VarChar(100)\n  lideranca lideranca[]\n}\n\nmodel registro_escala {\n  id_missa     Int\n  id_lideranca Int\n  lideranca    lideranca @relation(fields: [id_lideranca], references: [id], onDelete: NoAction, onUpdate: NoAction, map: \"fk_registro_escala_lideranca\")\n  missa        missa     @relation(fields: [id_missa], references: [id], onDelete: NoAction, onUpdate: NoAction, map: \"fk_registro_escala_missa\")\n\n  @@id([id_missa, id_lideranca], map: \"pk_registro_escala\")\n}\n",
   "runtimeDataModel": {
@@ -37,12 +37,14 @@ async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Modul
 }
 
 config.compilerWasm = {
-  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_bg.postgresql.js"),
+  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.mjs"),
 
   getQueryCompilerWasmModule: async () => {
-    const { wasm } = await import("@prisma/client/runtime/query_compiler_bg.postgresql.wasm-base64.js")
+    const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm-base64.mjs")
     return await decodeBase64AsWasm(wasm)
-  }
+  },
+
+  importName: "./query_compiler_fast_bg.js"
 }
 
 

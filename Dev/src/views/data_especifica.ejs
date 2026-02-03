@@ -1,0 +1,137 @@
+<%- include("includes/header"); %>
+<div class="mt-5">
+    <div class="container mt-5">
+        <% if (status_edit === "sucesso") { %>
+            <div id="mensagem_sucesso" class="w-50 mx-auto text-center alert alert-success alert-dismissible fade-show border rounded-3" role="alert">
+                Missa editada com sucesso.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } else if (status_edit === "erro") { %>
+            <div id="mensagem_erro" class="w-50 mx-auto text-center alert alert-danger alert-dismissible fade-show border rounded-3" role="alert">
+                Ocorreu algum erro ao editar a missa.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+        <% if (status_delete === "sucesso") { %>
+            <div id="mensagem_sucesso" class="w-50 mx-auto text-center alert alert-success alert-dismissible fade-show border rounded-3" role="alert">
+                Missa deletada com sucesso.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } else if (status_delete === "erro") { %>
+                <div id="mensagem_erro" class="w-50 mx-auto text-center alert alert-danger alert-dismissible fade-show border rounded-3" role="alert">
+                Ocorreu algum erro ao deletar a missa.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+        <h1 id="data_topo_pagina" class="text text-black fw-semibold text-center">Data: <%= data_atual %></h1>
+        <div class="container border-top border-primary border-5 shadow-lg rounded-3">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Titulo</th>
+                        <th>Descrição</th>
+                        <th>Qtd. Min. Lideranças</th>
+                        <th>Horário</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">             
+                    <% missas.forEach(missa => { %> 
+                        <tr class="linha linha_excluir">
+                            <th><%= missa.id  %></th>
+                            <th><%= missa.titulo  %></th>
+                            <th class="link_desc text text-primary fw-semibold" data-bs-toggle="modal" data-bs-target="#modal_desc"><a href="#">Descrição</a></th>
+                            <input type="hidden" value="<%= missa.descricao %>" class="input_hidden_desc">
+                            <th><%= missa.qtd_min_liderancas  %></th>
+                            <th><%= missa.horario  %></th>
+                            <th><a href="/missas/especifica/delete?id=<%= missa.id %>&data_atual=<%=data_atual%>" class="btn btn-danger btn-excluir-missa text text-white fw-semibold">Excluir</a></th>
+                            <th><a href="#" class="btn-editar-missa btn btn-warning text text-black fw-semibold"  data_id="<%= missa.id %>" data-bs-toggle="modal" data-bs-target="#modal_edicao">Editar</a></th>
+                        </tr>   
+                    <% }); %>
+                </tbody> 
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="modal_edicao" data-bs-backdrop="static" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text text-black fw-semibold">Editar Missa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">    
+                <form method="POST" id="form_edit_missas" action="/missas/especifica/edit/?data_atual=<%= data_atual %>&status_edit=<%=status_edit%>">      
+                    <input type="hidden" name="_method" value="PUT">
+                    <input type="hidden" name="id" id="missa_id_form" value="0">
+    
+                    <div id="mensagem_titulo_vazio" class="alert alert-danger my-2 text-center" style="display: none">
+                                Campo "Titulo" não pode ser vazio.
+                    </div>
+                    <div class="form-floating my-4">
+                        <input class="form-control" type="text" id="titulo_missa" placeholder="Titulo" name="titulo" required minlength="5" maxlength="60">
+                        <label for="titulo_missa">Titulo: </label>
+                    </div>
+                    
+                    <div id="mensagem_qtd_min_lideranca_vazio" class="alert alert-danger my-2 text-center" style="display: none">
+                                Campo "Quantidade Mínima De Lideranças" não pode ser vazio. 
+                    </div>
+                    <div id="mensagem_qtd_min_lideranca_ultrapassa" class="alert alert-danger my-2 text-center" style="display: none;">
+                        Campo "Quantidade Mínima De Lideranças" deve ser maior que 4.
+                    </div>
+                    <div class="form-floating my-4">
+                        <input class="form-control" type="number" id="qtd_min_lideranca_missa" placeholder="qtd_min_lideranca" name="qtd_min" required min="4">
+                        <label for="qtd_min_lideranca_missa">Quantidade Minima De Lideranças: </label>
+                    </div>
+                    
+                    <div class="form-floating my-4">
+                        <input class="form-control" type="text" id="descrição_missa" placeholder="descrição" name="desc" maxlength="200">
+                        <label for="descrição_missa">Descrição (Opcional): </label>
+                    </div>
+                    
+                    <div id="mensagem_data_vazio" class="alert alert-danger my-2 text-center" style="display: none">
+                                Campo "Data" não pode ser vazio. 
+                    </div>
+                    <div id="mensagem_data_formato" class="alert alert-danger my-2 text-center" style="display: none">
+                        Campo "Data" deve corresponder a uma data válida. 
+                    </div>
+                    <div class="form-floating my-4">
+                        <input class="form-control" type="date" id="data_missa" placeholder="Data" name="data">
+                        <label for="data_missa">Data: </label>
+                    </div>
+                    
+                    <div id="mensagem_hora_vazio" class="alert alert-danger my-2 text-center" style="display: none">
+                                Campo "Hora" não pode ser vazio. 
+                    </div>
+                    <div class="form-floating my-4">
+                        <input class="form-control" type="time" id="hora_missa" placeholder="Hora" name="hora">
+                        <label for="hora_missa">Hora: </label>
+                    </div>
+                    
+                    <div class="row justify-content-center ">
+                        <button type="submit" id="botao_salvar_missa" class="btn btn-primary btn-lg fw-bold w-25 mt-3"><i class="bi bi-save me-2"></i>Salvar</button>
+                    </div>
+                </form>    
+            </div>
+        </div>
+  </div>
+</div>
+
+<div id="modal_desc" class="modal" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="text text-black fw-semibold">Descrição: </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5 id="body_modal"class="text text-black fw-semibold"></h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/public/js/formMissa.js"></script>
+
+<%- include("includes/footer"); %>

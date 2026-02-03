@@ -1,0 +1,43 @@
+<%- include('includes/header'); %>
+    
+<div class="container row justify-content-center">   
+    <div class="bg-light rounded-3 shadow-lg my-5 py-5 col-12 col-md-8 col-lg-6 border-top border-primary border-5">
+        <h2 class="text-center">Insira abaixo os dados da liderança.</h2>
+        <form method="POST" action="/liderancas/new">                  
+            <div id="mensagem_nome_vazio" class="alert alert-danger my-2 text-center" style="display: none">
+                Campo nome não pode ser vazio.
+            </div>
+            <div id="mensagem_nome_apenas_letras" class="alert alert-danger my-2 text-center" style="display: none">
+                Campo nome deve conter apenas letras.
+            </div>
+            <div class="form-floating my-4">
+                <input type="text" class="form-control" id="nome_form" placeholder="Nome" name="nome" required>
+                <label for="nome_form">Nome</label>
+            </div>
+            <div id="mensagem_contato_vazio" class="alert alert-danger text-center my-2" style="display: none">
+                Contato não pode ser vazio.
+            </div>
+            <div id="mensagem_contato_formato" class="alert alert-danger text-center my-2" style="display: none">
+                Contato deve seguir formato (XX) 9XXXX-XXXX.
+            </div>                    
+            <div class="form-floating my-4">
+                <input type="text" class="form-control" id="contato_form" placeholder="contato" name="contato" required="Campo CONTATO não pode ser vazio.">
+                <label for="contato_form">Contato</label>
+            </div>     
+            <div class="row justify-content-center ">     
+                <button id="botao_salvar" type="submit" class="btn btn-primary btn-lg fw-bold w-25 btn-criar-lideranca mt-3" disabled><i class="bi bi-save"></i>Salvar</button>
+            </div>
+        </form>
+    </div>
+        <% if (status.resultado !== undefined) { %>
+            <% if (status.resultado === 'sucesso' ) { %>
+                <div class="alert alert-success text-center" role="alert">Liderança registrada com sucesso.</div>
+            <% } else if (status.resultado === 'erro' ) { %>
+                <div class="alert alert-danger text-center" role="alert">Ocorreu algum erro ao registrar a liderança.</div>
+            <% } %>
+        <% } %>
+</div>
+
+<script src="/public/js/validacaoFormLideranca.js"></script>
+
+<%- include("includes/footer"); %>
