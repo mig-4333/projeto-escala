@@ -15,3 +15,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        /**
+         * DETECTOR DE NAVEGAÇÃO POR HISTÓRICO
+         * Se o usuário clicar no botão "Voltar" do navegador, este evento dispara.
+         * 'event.persisted' é true se a página veio do cache (bfcache).
+         */
+        window.addEventListener('pageshow', function(event) {
+            // Se a página foi carregada do cache OU se é uma navegação de 'voltar'
+            var historyTraversal = event.persisted || 
+                                (typeof window.performance != "undefined" && 
+                                    window.performance.navigation.type === 2);
+
+            if (historyTraversal) {
+                // Força o recarregamento da página buscando dados novos no servidor
+                window.location.reload();
+            }
+        });
+    </script>

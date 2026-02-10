@@ -95,7 +95,6 @@ function validaFormatoData(data){
 };
 
 function verificaErros(){
-    console.log(campos_form)
     if (campos_form.datas.lenght > 0){
         for (data of campos_form.data){
             validaFormatoData(data.value)

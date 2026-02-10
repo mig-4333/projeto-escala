@@ -1,8 +1,10 @@
 <%- include('includes/header'); %>
 
-<div class="mt-5">
-    <a href="/liderancas/new" class="btn btn-primary">Cadastrar Nova Liderança</a>
-    <div class="container text-center border border-dark rounded-3 shadow-lg mt-1">
+<%- include("includes/navbar"); %>
+
+<div class="mt-5 mx-5">
+    <a href="/liderancas/new" class="btn btn-primary text text-white fw-semibold">Cadastrar Nova Liderança</a>
+    <div class="border border-dark border-2 rounded-3 shadow-lg mt-1 p-2">
             <table class="table table-hover align-middle caption-top">            
                     <thead>
                         <tr>
@@ -27,14 +29,28 @@
                     </tbody>       
             </table>
             <div>
-                <% if (status.resultado !== undefined){  %>
-                    <%  if (status.resultado === "sucesso"){   %>
-                            <div class="alert alert-success alert-dismissible fade-show" role="alert">
+                <% if (status_delete !== undefined){  %>
+                    <%  if (status_delete === "sucesso"){   %>
+                            <div class="alert alert-success alert-dismissible fade-show text-center" role="alert">
+                                Liderança deletada com sucesso.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                    <% } else if (status_delete === "erro"){ %>
+                            <div class="alert alert-danger alert-dismissible fade-show text-center" role="alert">
+                                Ocorreu um erro ao deletar a liderança. 
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                    <%    }  %>
+                <%  }  %>
+                
+                <% if (status_edit !== undefined){  %>
+                    <%  if (status_edit === "sucesso"){   %>
+                            <div class="alert alert-success alert-dismissible fade-show text-center" role="alert">
                                 Liderança editada com sucesso.
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
-                    <% } else if (status.resultado === "erro"){ %>
-                            <div class="alert alert-danger alert-dismissible fade-show" role="alert">
+                    <% } else if (status_edit === "erro"){ %>
+                            <div class="alert alert-danger alert-dismissible fade-show text-center" role="alert">
                                 Ocorreu um erro ao editar a liderança. 
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
@@ -73,7 +89,7 @@
                                     <input type="text" class="form-control" name="contato" id="contato_form" placeholder="contato">
                                     <label for="contato_form">Contato</label>
                                 </div>
-                                <button id="botao_salvar" class="btn btn-primary btn-enviar-edicao" type="submit" disabled>
+                                <button id="botao_salvar" class="btn btn-primary btn-enviar-edicao" type="submit">
                                     Salvar
                                 </button>
                             </form>
@@ -85,6 +101,6 @@
     </div>
 </div>
 
-<script src="/public/js/validacaoForm.js"></script>
+<script src="/public/js/formLideranca.js"></script>
 
 <%- include("includes/footer"); %>

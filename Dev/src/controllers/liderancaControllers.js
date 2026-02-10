@@ -4,9 +4,9 @@ import Lideranca from "../models/liderancaModels.js"
 // Lida com o metódo GET na página inicial das lideranças
 export const liderancaGET = async (req,res) => {  
     try {
-    const { status } = req.query; 
-    const liderancas = await Lideranca.buscaLiderancas();    
-    res.render("lideranca", { liderancas, resultado: status });
+        const { status_delete, status_edit } = req.query; 
+        const liderancas = await Lideranca.buscaLiderancas();    
+        res.render("lideranca", { liderancas, status_delete, status_edit });
     }
     catch (error) {
         res.send("Não foi possivel carregar as lideranças") 
@@ -15,29 +15,33 @@ export const liderancaGET = async (req,res) => {
 
 // Lida com o metódo PUT (modal de edição de lideranças)
 export const liderancaPUT = async (req,res) => {  
+    let status_edit
     try{
         const { id,nome,contato } = req.body;
         await Lideranca.alteraLideranca(id,nome,contato);
-        res.redirect("/liderancas?status=sucesso");
+        status_edit = "sucesso"
     }
     catch (error) {
-        res.redirect("/liderancas?status=erro");
-    };
+        status_edit = "erro"
+    }
+    finally{
+        res.redirect(`/liderancas/?status_edit=${status_edit}`)
+    }
 };
 
 // Lida com o metódo DELETE (Botão de excluir liderança)
 export const liderancaDELETE = async (req,res) => {
+    let status_delete;
     try {
         const id = req.params.id;
         await Lideranca.deletaLideranca(id);
-        const liderancas = await Lideranca.buscaLiderancas();
-        res.render("lideranca", { 
-            liderancas,
-            lideranca_id : 0
-        });
+        status_delete = "sucesso";
     }
     catch (error) {
-        res.send("Ocorreu um erro ao deletar o registro");
+        status_delete = "erro";
+    }
+    finally {
+        res.redirect(`/liderancas?status_delete=${status_delete}`)
     };
 };
 

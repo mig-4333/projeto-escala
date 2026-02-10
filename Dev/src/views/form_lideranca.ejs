@@ -1,5 +1,8 @@
 <%- include('includes/header'); %>
-    
+   
+
+
+
 <div class="container row justify-content-center">   
     <div class="bg-light rounded-3 shadow-lg my-5 py-5 col-12 col-md-8 col-lg-6 border-top border-primary border-5">
         <h2 class="text-center">Insira abaixo os dados da liderança.</h2>
@@ -25,19 +28,17 @@
                 <label for="contato_form">Contato</label>
             </div>     
             <div class="row justify-content-center ">     
-                <button id="botao_salvar" type="submit" class="btn btn-primary btn-lg fw-bold w-25 btn-criar-lideranca mt-3" disabled><i class="bi bi-save"></i>Salvar</button>
+                <button id="botao_salvar" type="submit" class="btn btn-primary btn-lg fw-bold w-25 btn-criar-lideranca mt-3"><i class="bi bi-save"></i>Salvar</button>
             </div>
         </form>
     </div>
-        <% if (status.resultado !== undefined) { %>
-            <% if (status.resultado === 'sucesso' ) { %>
-                <div class="alert alert-success text-center" role="alert">Liderança registrada com sucesso.</div>
-            <% } else if (status.resultado === 'erro' ) { %>
-                <div class="alert alert-danger text-center" role="alert">Ocorreu algum erro ao registrar a liderança.</div>
-            <% } %>
+        <% if (status.resultado === 'sucesso' ) { %>
+            <div class="alert alert-success text-center" role="alert">Liderança registrada com sucesso.</div>
+        <% } else if (status.resultado === 'erro' ) { %>
+            <div class="alert alert-danger text-center" role="alert">Ocorreu algum erro ao registrar a liderança.</div>
         <% } %>
 </div>
 
-<script src="/public/js/validacaoFormLideranca.js"></script>
+<script src="/public/js/formLideranca.js"></script>
 
 <%- include("includes/footer"); %>

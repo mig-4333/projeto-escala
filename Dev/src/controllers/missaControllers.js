@@ -33,7 +33,7 @@ export const missaDELETE = async (req,res) => {
         status_delete = "erro";
     }
     finally {
-        res.redirect(`/missas/especifica/?data_atual=${data_atual}&status_delete=${status_delete}`);
+        res.redirect(`/missas/especifica?data_atual=${data_atual}&status_delete=${status_delete}`);
     };
 };
 
@@ -50,7 +50,7 @@ export const missaPUT = async (req,res) => {
         status_edit = "erro";
     }
     finally {
-        res.redirect(`/missas/especifica/?data_atual=${data_atual}&status_edit=${status_edit}`);
+        res.redirect(`/missas/especifica?data_atual=${data_atual}&status_edit=${status_edit}`);
     }
 }
 

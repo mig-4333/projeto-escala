@@ -1,52 +1,81 @@
-function valida_campo_nome(nome){
-    const regex_nome = /^[a-zA-ZÀ-ÿ\s]+$/; // Apenas letras e espaços
-    if (nome === ""){
-        document.getElementById("mensagem_nome_vazio").style.display = "block";
-        return -1   
+const campos_form = {
+    nome: document.getElementById("nome_form"),
+    contato: document.getElementById("contato_form")
+};
+
+const erros = {
+    nome: {
+        vazio: document.getElementById("mensagem_nome_vazio"),
+        formato: document.getElementById("mensagem_nome_apenas_letras") 
+    },
+    contato: {
+        vazio: document.getElementById("mensagem_contato_vazio"),
+        formato: document.getElementById("mensagem_contato_formato")
+    },
+};
+
+const regex = {
+    nome : /^[a-zA-ZÀ-ÿ\s]+$/,
+    contato : /^\(\d{2}\) 9\d{4}-\d{4}$/,
+    str_vazio : /^\s*$/
+};
+
+function formatoCampoEstaErrado(string,regex){
+    // retorna true se o formato do string estiver errado (não bater a regex passada no parametro)
+    return regex.test(string) ? false : true;  
+};
+
+function campoEstaVazio(str){
+    // retorna true se texto estiver vazio
+    return regex.str_vazio.test(str);
+};
+
+function mostraErro(div_erro){
+    // muda a visualização da div de "none" para "block"
+    div_erro.style.display = "block";
+};
+
+function validaCampo(campo){
+    const nome_campo = campo.name  // O nome que o campo tem no html e coincide com o nome dos objetos regex e erros
+    if (campoEstaVazio(campo.value)){
+        mostraErro(erros[nome_campo].vazio);   
     }
-    else if (!regex_nome.test(nome)) {
-        document.getElementById("mensagem_nome_apenas_letras").style.display = "block";   
-        return -1
+    else if (formatoCampoEstaErrado(campo.value, regex[nome_campo])) {
+        mostraErro(erros[nome_campo].formato);
     };
 };
 
-function valida_campo_contato(contato){
-    const regex_contato = /^\(\d{2}\) 9\d{4}-\d{4}$/; // Telefone: (XX) 9XXXX-XXXX
-    if (contato === ""){
-        document.getElementById("mensagem_contato_vazio").style.display = "block";
-        return -1
-    }
-    else if (!regex_contato.test(contato)) {
-        document.getElementById("mensagem_contato_formato").style.display = "block";
-        return -1
-    }; 
+function verificaErros(){
+    validaCampo(campos_form.nome);
+    validaCampo(campos_form.contato);
 };
 
-function libera_botao(){
-    if (erro_nome !== -1 && erro_contato !== -1){
-        document.getElementById("botao_salvar").removeAttribute("disabled");
+function limpaErros(){
+    const erros = document.getElementsByClassName("alert-danger");
+    for (erro of erros){
+        erro.style.display = "none"
     };
 };
 
-// Inicializa as variáveis de verificação dos erros como -1 (não exibe)
-let erro_nome = -1;
-let erro_contato = -1;
+function getQtdErros(){
+    let qtd_erros = 0;
+    const erros = document.getElementsByClassName("alert-danger");
+    for (erro of erros){
+        if (erro.style.display === "block") qtd_erros += 1;
+    };  
+    return qtd_erros;
+}
 
-document.getElementById("nome_form").addEventListener("blur", () => {
-    document.getElementById("mensagem_nome_vazio").style.display = "none";   
-    document.getElementById("mensagem_nome_apenas_letras").style.display = "none"; 
-    erro_nome = valida_campo_nome(document.getElementById("nome_form").value);
-    libera_botao();
-});
+const botao_salvar = document.getElementById("botao_salvar");
+botao_salvar.addEventListener("click", elemento => {
+    limpaErros();
+    verificaErros();
+    if (getQtdErros() >= 1){
+        elemento.preventDefault();
+    }
+})
 
-document.getElementById("contato_form").addEventListener("blur", () => {
-    document.getElementById("mensagem_contato_vazio").style.display = "none";
-    document.getElementById("mensagem_contato_formato").style.display = "none";  
-    erro_contato = valida_campo_contato(document.getElementById("contato_form").value);
-    libera_botao();
-});
-
-
+// --------------------------------------------------------------------------------------------- // 
 document.addEventListener("click", (event) => {
     const elemento_clicado = event.target;
     if (elemento_clicado.closest(".btn-excluir")) {
