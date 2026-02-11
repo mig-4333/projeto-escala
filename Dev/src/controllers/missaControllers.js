@@ -6,7 +6,7 @@ export const missaGET = async (req,res) => {
         res.render("missas", { missas });
     }
     catch (error) {
-        throw error;
+        res.render("erro");
     };
 };
 
@@ -18,13 +18,13 @@ export const data_especificaGET = async (req,res) => {
         res.render("data_especifica", { missas, data_atual, status_edit,status_delete });
     }
     catch (error){
-        throw error;
+        res.render("erro");
     };
 };
 
 export const missaDELETE = async (req,res) => {
     let status_delete;
-    const { id, data_atual } = req.query.id;
+    const { id,data_atual } = req.query;
     try{
         status_delete = "sucesso";
         await Missa.deletaMissa(id);
@@ -33,7 +33,7 @@ export const missaDELETE = async (req,res) => {
         status_delete = "erro";
     }
     finally {
-        res.redirect(`/missas/especifica?data_atual=${data_atual}&status_delete=${status_delete}`);
+        res.redirect(`/missas/especifica?data_atual=${data_atual}&status_delete=${status_delete}&id=${id}`);
     };
 };
 
@@ -46,7 +46,6 @@ export const missaPUT = async (req,res) => {
         status_edit = "sucesso";
     }
     catch (error){
-        console.log("ERRO")
         status_edit = "erro";
     }
     finally {
@@ -71,8 +70,13 @@ export const new_missaPOST = async (req,res) => {
 
 
 export const new_missa_recorrenteGET = (req,res) => {
-    res.render("form_missa_recorrente");
-}
+    try{
+        res.render("form_missa_recorrente");
+    }
+    catch{
+        res.render("erro");
+    };
+};
 
 export const new_missa_recorrentePOST = async (req,res) => {
     try{

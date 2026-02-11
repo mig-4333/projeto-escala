@@ -1,27 +1,3 @@
-// BOTÃO EDITAR MISSA (DIA ESPECÍFICO)
-const btns_editar = document.querySelectorAll(".btn-editar-missa");
-btns_editar.forEach(btn_editar => {
-    btn_editar.addEventListener("click", (event) => {
-        const missa_id_form = document.getElementById("missa_id_form");
-        const id = event.target.getAttribute("data_id");
-        missa_id_form.value = id
-    });
-});
-
-
-// BOTÃO EXCLUIR MISSA (DIA ESPECÍFICO)
-const btns_excluir = document.querySelectorAll(".btn-excluir-missa")
-btns_excluir.forEach( btn_excluir => {
-    btn_excluir.addEventListener("click", (element) => {
-        const colunaParaRemover = element.closest(".linha_excluir");
-        if (colunaParaRemover){
-            if (confirm("Tem certeza que deseja excluir este registro?")) {
-            colunaParaRemover.remove();
-            }
-        }
-    })
-})
-
 function primeiraLetraMaiscula(txt){
         txt = String(txt)
         const txt_tratado = txt.charAt(0).toUpperCase() + txt.slice(1);
@@ -149,7 +125,6 @@ const erros = {
 
 const botao_enviar = document.getElementById("botao_salvar_missa");
 botao_enviar.addEventListener("click", elemento => {
-    console.log("CLICOU")
     limpaErro();
     verificaErros()
     if (getQtdErros() >= 1){

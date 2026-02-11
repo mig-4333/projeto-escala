@@ -35,7 +35,7 @@
                         <th>Horário</th>
                     </tr>
                 </thead>
-                <tbody class="table-group-divider">             
+                <tbody class="table-group-divider">  
                     <% missas.forEach(missa => { %> 
                         <tr class="linha linha_excluir">
                             <th><%= missa.id  %></th>
@@ -44,7 +44,7 @@
                             <input type="hidden" value="<%= missa.descricao %>" class="input_hidden_desc">
                             <th><%= missa.qtd_min_liderancas  %></th>
                             <th><%= missa.horario  %></th>
-                            <th><a href="/missas/especifica/delete?id=<%= missa.id %>&data_atual=<%=data_atual%>" class="btn btn-danger btn-excluir-missa text text-white fw-semibold">Excluir</a></th>
+                            <th><a href="/missas/especifica/delete?id=<%= missa.id %>&data_atual=<%= data_atual%>" class="btn btn-danger btn-excluir-missa text text-white fw-semibold">Excluir</a></th>
                             <th><a href="#" class="btn-editar-missa btn btn-warning text text-black fw-semibold"  data_id="<%= missa.id %>" data-bs-toggle="modal" data-bs-target="#modal_edicao">Editar</a></th>
                         </tr>   
                     <% }); %>
@@ -133,5 +133,6 @@
 </div>
 
 <script src="/public/js/formMissa.js"></script>
+<script src="/public/js/editar_deletarMissa.js"></script>
 
 <%- include("includes/footer"); %>

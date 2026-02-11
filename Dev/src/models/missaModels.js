@@ -59,7 +59,6 @@ class Missa {
             })
         }
         catch (error) {
-            console.log("MODEL ERROR")
             throw error
         };
     };

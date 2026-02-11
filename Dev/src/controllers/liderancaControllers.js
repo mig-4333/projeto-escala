@@ -9,7 +9,7 @@ export const liderancaGET = async (req,res) => {
         res.render("lideranca", { liderancas, status_delete, status_edit });
     }
     catch (error) {
-        res.send("Não foi possivel carregar as lideranças") 
+        res.render("erro"); 
         };
     };
 
@@ -47,7 +47,12 @@ export const liderancaDELETE = async (req,res) => {
 
 // Renderiza o formulário de cadastro de liderança
 export const new_liderancaGET = (req,res) => {
-    res.render("form_lideranca");
+    try{
+        res.render("form_lideranca");
+    }
+    catch (error) {
+        res.render("erro");
+    }
 };
 
 // Lida com o POST do formulário de nova liderança
