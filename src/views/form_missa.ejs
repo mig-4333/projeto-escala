@@ -1,0 +1,69 @@
+<%- include('includes/header'); %>
+
+<div class="container">
+<div class="mt-5 col justify-content-center">
+    <% if (status === "sucesso") { %>
+        <div id="mensagem_sucesso" class="w-50 mx-auto text-center alert alert-success alert-dismissible fade-show border rounded-3" role="alert">
+            Missa registrada com sucesso.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } else if (status === "erro") { %>
+         <div id="mensagem_erro" class="w-50 mx-auto text-center alert alert-danger alert-dismissible fade-show border rounded-3" role="alert">
+        Ocorreu algum erro ao registrar a missa.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <% } %>
+    <div class="w-50 mx-auto mb-3 px-3 py-5 bg-light rounded-4 shadow-lg border-top border-primary border-5">
+        <h2 class="text text-center">Insira abaixo os dados da missa.</h2>
+        <form method="POST">
+            <div id="mensagem_titulo_vazio" class="alert alert-danger my-2 text-center" style="display: none">
+                        Campo "Titulo" não pode ser vazio.
+            </div>
+            <div class="form-floating my-4 ">
+                <input class="form-control" type="text" id="titulo_missa" placeholder="Titulo" name="titulo">
+                <label for="titulo_missa">Titulo: </label>
+            </div>
+            <div id="mensagem_qtd_min_lideranca_vazio" class="alert alert-danger my-2 text-center" style="display: none">
+                        Campo "Quantidade Mínima De Lideranças" não pode ser vazio.
+            </div>
+            <div id="mensagem_qtd_min_lideranca_ultrapassa" class="alert alert-danger my-2 text-center" style="display: none;">
+                Campo "Quantidade Mínima De Lideranças" deve ser maior que 4.
+            </div>
+            <div class="form-floating my-4">
+                <input  id="qtd_min_lideranca_missa" class="form-control" type="number" placeholder="qtd_min_lideranca" name="qtd_min"  required min="4">
+                <label for="qtd_min_lideranca_missa">Quantidade Minima De Lideranças: </label>
+            </div>
+            <div class="form-floating my-4">
+                <input class="form-control" type="text" id="descrição_missa" placeholder="descrição" name="desc">
+                <label for="descrição_missa">Descrição (Opcional): </label>
+            </div>
+            <div id="mensagem_data_vazio" class="alert alert-danger my-2 text-center" style="display: none">
+                Campo "Data" não pode ser vazio. 
+            </div>
+            <div id="mensagem_data_formato" class="alert alert-danger my-2 text-center" style="display: none">
+                Campo "Data" deve corresponder a uma data válida. 
+            </div>
+            <div class="form-floating my-4">
+                <input id="data_missa" class="form-control" type="date" placeholder="Data" name="data">
+                <label for="data_missa">Data: </label>
+            </div>
+            <div id="mensagem_hora_vazio" class="alert alert-danger my-2 text-center" style="display: none">
+                Campo "Hora" não pode ser vazio. 
+            </div>
+            <div class="form-floating my-4">
+                <input id="hora_missa" class="form-control" type="time" placeholder="Hora" name="hora">
+                <label for="hora_missa">Hora: </label>
+            </div>
+            <div class="row justify-content-center ">
+                <button id="botao_salvar_missa" type="submit" class="btn btn-primary btn-lg fw-bold w-25 mt-3"><i class="bi bi-save me-2"></i>Salvar</button>
+            </div>
+        </form>
+    </div>
+
+    
+    
+</div>
+</div>
+<script src="/public/js/formMissa.js"></script>
+
+<%- include("includes/footer"); %>

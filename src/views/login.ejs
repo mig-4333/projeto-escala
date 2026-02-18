@@ -1,0 +1,22 @@
+<%- include('includes/header'); %>
+
+<div class="row justify-content-center">
+    <div class="col-6 border-top border-primary border-5 shadow-lg p-5 rounded-3 m-5"  style="--bs-bg-opacity: .8">
+        <h3 class="card-title mb-1">Faça Login para entrar no sistema</h3>
+        <h6 class="card-text">Agiliza Escala.</h6>
+        <form action="/login" method="POST" class="form my-3">
+            <div class="form-floating">
+                <input type="text" class="form-control" id="login_form" placeholder="login" name="nome" required="Campo PASTORAL não pode ser vazio.">
+                <label>Pastoral: </label>
+            </div>
+            <div class="form-floating my-3">
+                <input type="password" class="form-control" id="senha_form" placeholder="senha" name="senha" required="Campo SENHA não pode ser vazio.">
+                <label for="senha_form">Senha: </label>
+            </div>
+            <button type="submit" class="btn btn-primary fw-bold text-center">Login</button>
+        </form>
+        
+    </div>
+</div>
+
+<%- include("includes/footer"); %>
