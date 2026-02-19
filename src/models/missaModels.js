@@ -2,15 +2,6 @@ import prisma from "../prisma.js";
 import DataHelpers from "../utils/dataMissaUtils.js";
 
 class Missa {    
-    constructor (titulo,qtd_min,desc,data,hora){
-        this.titulo = titulo;
-        this.qtd_min = qtd_min;
-        this.desc = desc;
-        this.data = data;
-        this.hora = hora;
-    };
-
-    // Lida com o metódo GET de todas as missas (visualização de calendário)
     static async buscaMissas(id_pastoral){
         try{
             return await prisma.missa.findMany({
@@ -40,11 +31,11 @@ class Missa {
         };
     };
 
-    static async editaMissa(id,titulo,qtd_min,desc,data,hora){
+    static async editaMissa(dados_missa){
         try{
-            const dataOBJ = DataHelpers.getDataISO(data,hora);
-            qtd_min = parseInt(qtd_min,10);
-            id = parseInt(id,10);
+            const dataOBJ = DataHelpers.getDataISO(dados_missa.data, dados_missa.hora);
+            const qtd_min = parseInt(dados_missa.qtd_min,10);
+            const id = parseInt(dados_missa.id,10);
             return await prisma.missa.update({
                 where: {
                     id: id,
@@ -52,8 +43,8 @@ class Missa {
                 data: {
                     data_hora: dataOBJ,
                     qtd_min_liderancas: qtd_min,
-                    descricao: desc,
-                    titulo: titulo,
+                    descricao: dados_missa.desc,
+                    titulo: dados_missa.titulo,
                 },
             })
         }
@@ -62,7 +53,6 @@ class Missa {
         };
     };
     
-    // Lida com o metódo DELETE de missas
     static async deletaMissa(id){
         id = parseInt(id,10)
         try{
@@ -77,17 +67,17 @@ class Missa {
         }
     };
 
-    static async criaMissa(id_pastoral, titulo,qtd_min,desc,data,hora){
-        const dataObjeto = DataHelpers.getDataISO(data,hora)
-        qtd_min = parseInt(qtd_min, 10);
+    static async criaMissa(dados_missa){
+        const dataObjeto = DataHelpers.getDataISO(dados_missa.data, dados_missa.hora)
+        const qtd_min = parseInt(dados_missa.qtd_min, 10);
         try{
             return await prisma.missa.create({
                 data: {
-                    id_pastoral: id_pastoral,
+                    id_pastoral: dados_missa.id_pastoral,
                     data_hora: dataObjeto,
                     qtd_min_liderancas: qtd_min,
-                    descricao: desc,
-                    titulo: titulo
+                    descricao: dados_missa.desc,
+                    titulo: dados_missa.titulo
                 }}
         )}
         catch (error){
@@ -95,27 +85,39 @@ class Missa {
         };
     };
 
-    // Lida com o metódo POST de Missa (recorrente)
-    static async criaMissaRecorrente(id_pastoral, titulo, qtd_min, desc, dias_semana, data_inicial,data_final, hora){
-        qtd_min = parseInt(qtd_min, 10);
-        const lista_dias = DataHelpers.getDatasEntreIntervalo(data_inicial,data_final,hora);
-        const dias_tratado = DataHelpers.validaDatasDiaSemana(lista_dias,dias_semana,hora);
-        try{
-            const lista_dados = []
-            for (let data of dias_tratado){
-                let data_tratada = DataHelpers.substituiHoraData(data,hora);
-                let array_dados = {
-                        id_pastoral: id_pastoral,
-                        data_hora:  data_tratada,
-                        qtd_min_liderancas: qtd_min,
-                        descricao: desc,
-                        titulo: titulo
-                };
-                lista_dados.push(array_dados)
+    static trata_array_missas_recorrente (dados_missa, datas_missas) {
+        const array_dados_missas_recorrente = [];
+        for (let data of datas_missas){
+            let qtd_min = parseInt(dados_missa.qtd_min, 10);
+            let data_tratada = DataHelpers.setHora(data, dados_missa.hora);
+            let array_dados_missa = {
+                id_pastoral: dados_missa.id_pastoral,
+                data_hora:  data_tratada,
+                qtd_min_liderancas: qtd_min,
+                descricao: dados_missa.desc,
+                titulo: dados_missa.titulo
             };
-            return await prisma.missa.createMany({data: lista_dados})
+            array_dados_missas_recorrente.push(array_dados_missa);
+        };
+        return array_dados_missas_recorrente;
+    };
+
+    static trataDias(dados_missa){
+        const lista_datas = DataHelpers.getDatasEntreIntervalo(dados_missa.data_inicial, dados_missa.data_final);
+        const lista_datas_com_horario = lista_datas.map( data => DataHelpers.setHora(data, dados_missa.hora))
+        const datas_validas = DataHelpers.validaDatasDiaSemana(lista_datas_com_horario, dados_missa.dias_semana);
+        return datas_validas;
+    }
+
+    static async criaMissaRecorrente(dados_missa){
+        try{
+            dados_missa.qtd_min = parseInt(dados_missa.qtd_min, 10); 
+            const datas_validas = this.trataDias(dados_missa);
+            const dados_missas_tratados = this.trata_array_missas_recorrente(dados_missa, datas_validas); 
+            return await prisma.missa.createMany({data: dados_missas_tratados});
         }
         catch (error){
+            console.log(error)
             throw error;
         }
     }
