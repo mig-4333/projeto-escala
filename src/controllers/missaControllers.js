@@ -43,9 +43,8 @@ export const missaPUT = async (req,res) => {
     const data_atual = req.query.data_atual
     let status_edit;
     try{
-        const { id,titulo,qtd_min,desc,data,hora } = req.body;
-        const id_pastoral = req.session.id;    
-        await Missa.editaMissa(id,titulo,qtd_min,desc,data,hora);
+        console.log(req.body)
+        await Missa.editaMissa(req.body);
         status_edit = "sucesso";
     }
     catch (error){
@@ -63,8 +62,8 @@ export const new_missaGET = (req,res) => {
 export const new_missaPOST = async (req,res) => {
     try{
         const id_pastoral = req.session.pastoral_id;
-        const { titulo, qtd_min, desc, data, hora } = req.body
-        await Missa.criaMissa(id_pastoral, titulo,qtd_min,desc,data,hora);
+        const dados_missa = { id_pastoral, ...req.body};
+        await Missa.criaMissa(dados_missa);
         res.render("form_missa", { status: "sucesso"});
     }
     catch (error) {
@@ -85,8 +84,8 @@ export const new_missa_recorrenteGET = (req,res) => {
 export const new_missa_recorrentePOST = async (req,res) => {
     try{
         const id_pastoral = req.session.pastoral_id;
-        const { titulo, qtd_min, desc, dias_semana, data_inicial,data_final, hora } = req.body;
-        await Missa.criaMissaRecorrente(id_pastoral, titulo, qtd_min, desc, dias_semana, data_inicial,data_final, hora);
+        const dados_missa = { id_pastoral, ...req.body };
+        await Missa.criaMissaRecorrente(dados_missa);
         res.render("form_missa_recorrente", { status: "sucesso"});
     }
     catch (error) {
