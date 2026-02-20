@@ -7,56 +7,55 @@ export const missaGET = async (req,res) => {
         res.render("missas", { missas });
     }
     catch (error) {
-        res.render("erro");
+        req.flash("error", "Ocorreu algum erro ao carregar registro das missas.");
+        res.redirect("erro");
     };
 };
 
 
 export const data_especificaGET = async (req,res) => {
     try{
-        const {data_atual, status_delete, status_edit } = req.query;
+        const {data_atual } = req.query;
         const id_pastoral = req.session.pastoral_id;
         const missas = await Missa.buscaMissasData(id_pastoral, data_atual);
-        res.render("data_especifica", { missas, data_atual, status_edit, status_delete });
+        res.render("data_especifica", { missas, data_atual });
     }
     catch (error){
-        res.render("erro");
+        req.flash("error", "Ocorreu algum erro ao carregar registro da missa na data específica.");
+        res.redirect("erro");
     };
 };
 
 export const missaDELETE = async (req,res) => {
-    let status_delete;
     const { id,data_atual } = req.query;
     try{
-        status_delete = "sucesso";
         await Missa.deletaMissa(id);
+        req.flash("success", "Missa deletada com sucesso.");
     }
     catch (error){
-        status_delete = "erro";
+        req.flash("error", "Ocorreu algum erro ao deletar a missa.");
     }
     finally {
-        res.redirect(`/missas/especifica?data_atual=${data_atual}&status_delete=${status_delete}&id=${id}`);
+        res.redirect(`/missas/especifica?data_atual=${data_atual}&id=${id}`);
     };
 };
 
 export const missaPUT = async (req,res) => {
     const data_atual = req.query.data_atual
-    let status_edit;
     try{
-        console.log(req.body)
         await Missa.editaMissa(req.body);
-        status_edit = "sucesso";
+        req.flash("success", "Missa atualizada com sucesso.");
     }
     catch (error){
-        status_edit = "erro";
+        req.flash("error", "Ocorreu algum erro ao atualizar a missa.");
     }
     finally {
-        res.redirect(`/missas/especifica?data_atual=${data_atual}&status_edit=${status_edit}`);
-    }
-}
+        res.redirect(`/missas/especifica?data_atual=${data_atual}`);
+    };
+};
 
 export const new_missaGET = (req,res) => {
-    res.render("form_missa", { status: ""});
+    res.render("form_missa");
 };
 
 export const new_missaPOST = async (req,res) => {
@@ -64,10 +63,12 @@ export const new_missaPOST = async (req,res) => {
         const id_pastoral = req.session.pastoral_id;
         const dados_missa = { id_pastoral, ...req.body};
         await Missa.criaMissa(dados_missa);
-        res.render("form_missa", { status: "sucesso"});
+        req.flash("success", "Missa criada com sucesso.");
+        res.redirect("form_missa");
     }
     catch (error) {
-        res.render("form_missa", { status: "erro"});
+        req.flash("error", "Ocorreu algum erro ao criar a missa.");
+        res.redirect("form_missa");
     };
 };
 
@@ -77,7 +78,8 @@ export const new_missa_recorrenteGET = (req,res) => {
         res.render("form_missa_recorrente");
     }
     catch{
-        res.render("erro");
+        req.flash("error", "Ocorreu algum erro ao carregar o formulário de missa recorrente.");
+        res.redirect("erro");
     };
 };
 
@@ -86,10 +88,11 @@ export const new_missa_recorrentePOST = async (req,res) => {
         const id_pastoral = req.session.pastoral_id;
         const dados_missa = { id_pastoral, ...req.body };
         await Missa.criaMissaRecorrente(dados_missa);
-        res.render("form_missa_recorrente", { status: "sucesso"});
+        res.render("form_missa_recorrente");
     }
     catch (error) {
-        res.render("form_missa_recorrente", { status: "erro"});
+        req.flash("error", "Ocorreu algum erro ao criar missa recorrente.");
+        res.redirect("form_missa_recorrente");
     };
 };
 

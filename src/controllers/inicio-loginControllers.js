@@ -16,13 +16,15 @@ export const loginPOST = async (req, res) => {
                 if (err) {
                     throw new Error("Erro ao regenerar sessão")
                 }
-                req.session.pastoral_id = pastoral.id; // salvar apenas ID
-                res.redirect("home"); // ou rota protegida
+                req.session.pastoral_id = pastoral.id;
+                req.flash("success", "Login realizado com sucesso."); 
+                res.redirect("home"); 
             });
     }
     catch {
-        res.render("erro")
-    }
+        req.flash("error", "Erro ao fazer login.");
+        res.render("erro");
+    };
 };
 
 export const logout = (req, res) => {

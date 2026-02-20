@@ -9,39 +9,38 @@ export const liderancaGET = async (req,res) => {
         res.render("lideranca", { liderancas, status_delete, status_edit });
     }
     catch (error) {
-        res.render("erro"); 
+        req.flash("error", "Ocorreu algum erro ao carregar lideranças.");
+        res.redirect("/erro");
         };
     };
 
 // Lida com o metódo PUT (modal de edição de lideranças)
 export const liderancaPUT = async (req,res) => {  
-    let status_edit
     try{
         const { id,nome,contato } = req.body;
         await Lideranca.alteraLideranca(id,nome,contato);
-        status_edit = "sucesso"
+        req.flash("success", "Liderança alterada com sucesso.");
     }
     catch (error) {
-        status_edit = "erro"
+        req.flash("error", "Ocorreu algum erro ao alterar liderança.");
     }
     finally{
-        res.redirect(`/liderancas/?status_edit=${status_edit}`)
+        res.redirect("/liderancas")
     }
 };
 
 // Lida com o metódo DELETE (Botão de excluir liderança)
 export const liderancaDELETE = async (req,res) => {
-    let status_delete;
     try {
         const id = req.params.id;
         await Lideranca.deletaLideranca(id);
-        status_delete = "sucesso";
+        req.flash("success", "Liderança deletada com sucesso.");
     }
     catch (error) {
-        status_delete = "erro";
+        req.flash("error", "Ocorreu algum erro ao deletar liderança.");
     }
     finally {
-        res.redirect(`/liderancas?status_delete=${status_delete}`)
+        res.redirect("/liderancas");
     };
 };
 
@@ -51,19 +50,23 @@ export const new_liderancaGET = (req,res) => {
         res.render("form_lideranca");
     }
     catch (error) {
-        res.render("erro");
+        req.flash("error", "Ocorreu algum erro ao renderizar formulário da liderança.");
+        res.redirect("erro");
     }
 };
 
+// Lida com o metódo POST (formulário de nova liderança)
 export const new_liderancaPOST = async (req,res) => {
     try {
         const { nome,contato } = req.body;
-        const id_pastoral = parseInt(req.session.id,10); 
+        const id_pastoral = req.session.pastoral_id; 
         await Lideranca.criaLideranca(id_pastoral, nome, contato);
-        res.redirect("/liderancas/new?resultado=sucesso");
+        req.flash("success", "Liderança criada com sucesso.");
+        res.redirect("/liderancas/new");
     }
     catch (error) {
-        res.redirect("/liderancas/new?resultado=erro");
+        req.flash("error", "Ocorreu algum erro ao criar liderança.");
+        res.redirect("/liderancas/new");
     }; 
 };
 

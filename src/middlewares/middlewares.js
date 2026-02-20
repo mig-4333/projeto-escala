@@ -11,3 +11,9 @@ export const protegerRotas = (req, res, next) => {
 export const erro404 = (req, res, next) => {
     res.status(404).render("erro");
 };
+
+export const flash_messages = (req,res,next) => {
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    next();
+};

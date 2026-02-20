@@ -1,4 +1,37 @@
 
+<script>
+    /**
+     * DETECTOR DE NAVEGAÇÃO POR HISTÓRICO (bfcache) E LIMPEZA DE HISTÓRICO
+     * Resolve o problema de precisar clicar duas vezes para voltar após redirecionamentos.
+     */
+    
+    // 1. Limpa o histórico de navegação imediatamente para evitar loops de POST
+    if (window.history.replaceState) {
+        // Substitui a entrada atual no histórico pela URL atual, mas sem os dados de POST.
+        // Isso remove a "memória" de que houve um envio de formulário nesta entrada.
+        window.history.replaceState(null, null, window.location.href);
+    }
+
+    // 2. Garante que a página recarregue ao usar o botão "Voltar"
+    window.addEventListener('pageshow', function(event) {
+        // Verifica se a página foi carregada do cache (bfcache) ou via botões de histórico
+        var perfEntries = performance.getEntriesByType("navigation");
+        var isBackForward = false;
+
+        if (perfEntries.length > 0) {
+            var navType = perfEntries[0].type;
+            isBackForward = (navType === 'back_forward');
+        } else {
+            // Fallback para navegadores mais antigos
+            isBackForward = window.performance && window.performance.navigation.type === 2;
+        }
+
+        if (event.persisted || isBackForward) {
+            // Força o recarregamento ignorando o cache para limpar as mensagens e o estado
+            window.location.reload();
+        }
+    });
+</script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

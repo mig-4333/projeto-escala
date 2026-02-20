@@ -5,7 +5,9 @@ import routes from "./routes/routes.js";
 import methodOverride from "method-override";
 import { fileURLToPath } from "url";
 import session from "express-session";
+import flash from 'connect-flash';
 import { erro404 } from "./src/middlewares/middlewares.js";
+import { flash_messages } from "./src/middlewares/middlewares.js";
 
 const app = express();
 
@@ -34,6 +36,9 @@ app.use(session({
         secure: false // Coloque 'true' apenas se tiver HTTPS (Produção)
     }
 }));
+
+app.use(flash());
+app.use(flash_messages);
 
 app.use(methodOverride(function(req, res){
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {

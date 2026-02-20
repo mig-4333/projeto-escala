@@ -2,6 +2,26 @@
    
 <div class="row justify-content-center">   
     <div class="bg-light rounded-3 shadow-lg my-5 py-5 col-12 col-md-8 col-lg-6 border-top border-primary border-5">
+         <!-- FLASH MESSAGES -->
+        <% if (success && success.length > 0) { %>
+            <% success.forEach(function(msg) { %>
+                <div class="alert alert-success alert-dismissible fade show text-center my-2" role="alert">
+                    <%= msg %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <% }) %>
+        <% } %>
+
+        <% if (error && error.length > 0) { %>
+            <% error.forEach(function(msg) { %>
+                <div class="alert alert-danger alert-dismissible fade show text-center my-2" role="alert">
+                    <%= msg %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <% }) %>
+        <% } %>
+
+
         <h2 class="text-center">Insira abaixo os dados da liderança.</h2>
         <form method="POST" action="/liderancas/new">                  
             <div id="mensagem_nome_vazio" class="alert alert-danger my-2 text-center" style="display: none">
@@ -29,11 +49,6 @@
             </div>
         </form>
     </div>
-        <% if (status.resultado === 'sucesso' ) { %>
-            <div class="alert alert-success text-center" role="alert">Liderança registrada com sucesso.</div>
-        <% } else if (status.resultado === 'erro' ) { %>
-            <div class="alert alert-danger text-center" role="alert">Ocorreu algum erro ao registrar a liderança.</div>
-        <% } %>
 </div>
 
 <script src="/public/js/formLideranca.js"></script>
