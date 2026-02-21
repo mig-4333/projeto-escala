@@ -1,5 +1,5 @@
 import prisma from "../prisma.js";
-import DataHelpers from "../utils/dataMissaUtils.js";
+import DataHelpers from "../utils/dataUtils.js";
 
 class Missa {    
     static async buscaMissas(id_pastoral){

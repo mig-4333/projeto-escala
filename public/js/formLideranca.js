@@ -1,6 +1,7 @@
 const campos_form = {
     nome: document.getElementById("nome_form"),
-    contato: document.getElementById("contato_form")
+    contato: document.getElementById("contato_form"),
+    data_nascimento: document.getElementById("data_nascimento_form")
 };
 
 const erros = {
@@ -12,13 +13,18 @@ const erros = {
         vazio: document.getElementById("mensagem_contato_vazio"),
         formato: document.getElementById("mensagem_contato_formato")
     },
+    data_nascimento: {
+        vazio: undefined,
+        formato: document.getElementById("mensagem_data_formato")        
+    }
 };
 
 const regex = {
     nome : /^[a-zA-ZÀ-ÿ\s]+$/,
     contato : /^\(\d{2}\) 9\d{4}-\d{4}$/,
-    str_vazio : /^\s*$/
-};
+    str_vazio : /^\s*$/,
+    data_nascimento : /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/
+}
 
 function formatoCampoEstaErrado(string,regex){
     // retorna true se o formato do string estiver errado (não bater a regex passada no parametro)
@@ -32,22 +38,23 @@ function campoEstaVazio(str){
 
 function mostraErro(div_erro){
     // muda a visualização da div de "none" para "block"
-    div_erro.style.display = "block";
+    if (div_erro) div_erro.style.display = "block";
 };
 
 function validaCampo(campo){
     const nome_campo = campo.name  // O nome que o campo tem no html e coincide com o nome dos objetos regex e erros
-    if (campoEstaVazio(campo.value)){
+    if (formatoCampoEstaErrado(campo.value, regex[nome_campo])) {
+        mostraErro(erros[nome_campo].formato);
+    }
+    else if (campoEstaVazio(campo.value)){
         mostraErro(erros[nome_campo].vazio);   
     }
-    else if (formatoCampoEstaErrado(campo.value, regex[nome_campo])) {
-        mostraErro(erros[nome_campo].formato);
-    };
 };
 
 function verificaErros(){
     validaCampo(campos_form.nome);
     validaCampo(campos_form.contato);
+    validaCampo(campos_form.data_nascimento);
 };
 
 function limpaErros(){

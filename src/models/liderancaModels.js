@@ -1,4 +1,5 @@
 import prisma from "../prisma.js"
+import DataHelpers from "../utils/dataUtils.js"
 
 class Lideranca {
     constructor(nome,contato){
@@ -22,13 +23,15 @@ class Lideranca {
         };
     };
 
-    static async criaLideranca(id_pastoral, nome,contato){
+    static async criaLideranca(id_pastoral, nome, contato, data_nascimento){
+        const dataObjeto = DataHelpers.getDataISO(data_nascimento)
         try{
             return await prisma.lideranca.create({
                 data: {
                     id_pastoral, id_pastoral,
                     nome: nome,
-                    contato: contato
+                    contato: contato,
+                    data_nascimento: dataObjeto
                 }
             }
         )} 

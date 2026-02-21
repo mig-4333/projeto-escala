@@ -44,6 +44,13 @@
                 <input type="text" class="form-control" id="contato_form" placeholder="contato" name="contato" required="Campo CONTATO não pode ser vazio.">
                 <label for="contato_form">Contato</label>
             </div>     
+            <div id="mensagem_data_formato" class="alert alert-danger text-center my-2" style="display: none">
+                Data de nascimento deve seguir formato "dd/mm/yyyy".
+            </div>      
+            <div class="form-floating my-4">
+                <input type="date" class="form-control" id="data_nascimento_form" placeholder="Nome" name="data_nascimento">
+                <label for="nome_form">Data De Nascimento (Opcional)</label>
+            </div>
             <div class="row justify-content-center ">     
                 <button id="botao_salvar" type="submit" class="btn btn-primary btn-lg fw-bold w-25 btn-criar-lideranca mt-3"><i class="bi bi-save"></i> Salvar</button>
             </div>

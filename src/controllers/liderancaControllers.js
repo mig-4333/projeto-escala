@@ -4,9 +4,9 @@ import Lideranca from "../models/liderancaModels.js"
 // Lida com o metódo GET na página inicial das lideranças
 export const liderancaGET = async (req,res) => {  
     try {
-        const { status_delete, status_edit } = req.query; 
         const liderancas = await Lideranca.buscaLiderancas(req.session.pastoral_id);  
-        res.render("lideranca", { liderancas, status_delete, status_edit });
+        console.log("LIDERANÇAS: ", liderancas)
+        res.render("lideranca", { liderancas });
     }
     catch (error) {
         req.flash("error", "Ocorreu algum erro ao carregar lideranças.");
@@ -58,9 +58,10 @@ export const new_liderancaGET = (req,res) => {
 // Lida com o metódo POST (formulário de nova liderança)
 export const new_liderancaPOST = async (req,res) => {
     try {
-        const { nome,contato } = req.body;
+        console.log("BODY", req.body)
+        const { nome,contato, data_nascimento } = req.body;
         const id_pastoral = req.session.pastoral_id; 
-        await Lideranca.criaLideranca(id_pastoral, nome, contato);
+        await Lideranca.criaLideranca(id_pastoral, nome, contato, data_nascimento);
         req.flash("success", "Liderança criada com sucesso.");
         res.redirect("/liderancas/new");
     }
