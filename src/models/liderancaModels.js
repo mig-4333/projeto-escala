@@ -2,11 +2,6 @@ import prisma from "../prisma.js"
 import DataHelpers from "../utils/dataUtils.js"
 
 class Lideranca {
-    constructor(nome,contato){
-        this.nome = nome;
-        this.contato = contato;
-    };
-
     static async buscaLiderancas(id_pastoral){
         try {
             const liderancas = await prisma.lideranca.findMany({
@@ -18,14 +13,15 @@ class Lideranca {
                 }
             });        
             return liderancas
-        } catch (error) {
+        } 
+        catch (error) {
             throw error;
         };
     };
 
     static async criaLideranca(id_pastoral, nome, contato, data_nascimento){
-        const dataObjeto = DataHelpers.getDataISO(data_nascimento)
         try{
+            const dataObjeto = DataHelpers.getDataISO(data_nascimento);
             return await prisma.lideranca.create({
                 data: {
                     id_pastoral, id_pastoral,
@@ -66,7 +62,8 @@ class Lideranca {
                 nome: nome,
                 contato: contato
             }
-        })} 
+            })
+        } 
         catch (error){
             throw error;
         };
