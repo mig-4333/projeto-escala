@@ -24,7 +24,7 @@ const regex = {
     contato : /^\(\d{2}\) 9\d{4}-\d{4}$/,
     str_vazio : /^\s*$/,
     data_nascimento : /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/
-}
+};
 
 function formatoCampoEstaErrado(string,regex){
     // retorna true se o formato do string estiver errado (não bater a regex passada no parametro)
@@ -48,7 +48,7 @@ function validaCampo(campo){
     }
     else if (campoEstaVazio(campo.value)){
         mostraErro(erros[nome_campo].vazio);   
-    }
+    };
 };
 
 function verificaErros(){
@@ -60,7 +60,7 @@ function verificaErros(){
 function limpaErros(){
     const erros = document.getElementsByClassName("alert-danger");
     for (erro of erros){
-        erro.style.display = "none"
+        erro.style.display = "none";
     };
 };
 
@@ -80,9 +80,8 @@ botao_salvar.addEventListener("click", elemento => {
     if (getQtdErros() >= 1){
         elemento.preventDefault();
     }
-})
+});
 
-// --------------------------------------------------------------------------------------------- // 
 document.addEventListener("click", (event) => {
     const elemento_clicado = event.target;
     if (elemento_clicado.closest(".btn-excluir")) {
@@ -90,9 +89,9 @@ document.addEventListener("click", (event) => {
         if (colunaParaRemover) {
             if (confirm("Tem certeza que deseja excluir este registro?")) {
                 colunaParaRemover.remove();
+            };
         };
     };
-}
 });
 
 const botoes_editar = document.querySelectorAll(".btn-editar");
@@ -100,5 +99,4 @@ const botoes_editar = document.querySelectorAll(".btn-editar");
         botao.addEventListener("click", (event) => {
             document.getElementById("lideranca_id_edit").value = event.target.getAttribute('data_id');
         });
-    });
-                
+    });      
