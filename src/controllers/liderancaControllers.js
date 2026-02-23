@@ -1,11 +1,9 @@
 import Lideranca from "../models/liderancaModels.js" 
 
-
 // Lida com o metódo GET na página inicial das lideranças
 export const liderancaGET = async (req,res) => {  
     try {
         const liderancas = await Lideranca.buscaLiderancas(req.session.pastoral_id);  
-        console.log("LIDERANÇAS: ", liderancas)
         res.render("lideranca", { liderancas });
     }
     catch (error) {
@@ -58,7 +56,6 @@ export const new_liderancaGET = (req,res) => {
 // Lida com o metódo POST (formulário de nova liderança)
 export const new_liderancaPOST = async (req,res) => {
     try {
-        console.log("BODY", req.body)
         const { nome,contato, data_nascimento } = req.body;
         const id_pastoral = req.session.pastoral_id; 
         await Lideranca.criaLideranca(id_pastoral, nome, contato, data_nascimento);
@@ -70,4 +67,3 @@ export const new_liderancaPOST = async (req,res) => {
         res.redirect("/liderancas/new");
     }; 
 };
-
