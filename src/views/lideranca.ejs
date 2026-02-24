@@ -38,7 +38,7 @@
                                 <th><%= lideranca.id %></th>
                                 <th><%= lideranca.nome %></th>
                                 <th><%= lideranca.contato %></th>
-                                <th><%= lideranca.data_nascimento %></th>
+                                <th class="data_nascimento"><%= lideranca.data_nascimento %></th>
                                 <th><a href="/liderancas/delete/<%= lideranca.id %>" class="btn btn-danger btn-excluir">Excluir</a></th>
                                 <th><a href="#" class="btn-editar btn btn-warning"  data_id="<%= lideranca.id %>" data-bs-toggle="modal" data-bs-target="#modal_edicao">Editar</a></th>
                             </tr>
