@@ -1,27 +1,16 @@
 <%- include("includes/header"); %>
 <div class="mt-5">
     <div class="container mt-5">
-        <% if (status_edit === "sucesso") { %>
-            <div id="mensagem_sucesso" class="w-50 mx-auto text-center alert alert-success alert-dismissible fade-show border rounded-3" role="alert">
-                Missa editada com sucesso.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <% } else if (status_edit === "erro") { %>
+         <% if (status === "sucesso") { %>
+        <div id="mensagem_sucesso" class="w-50 mx-auto text-center alert alert-success alert-dismissible fade-show border rounded-3" role="alert">
+            Missa registrada com sucesso.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <% } else if (status === "erro") { %>
             <div id="mensagem_erro" class="w-50 mx-auto text-center alert alert-danger alert-dismissible fade-show border rounded-3" role="alert">
-                Ocorreu algum erro ao editar a missa.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <% } %>
-        <% if (status_delete === "sucesso") { %>
-            <div id="mensagem_sucesso" class="w-50 mx-auto text-center alert alert-success alert-dismissible fade-show border rounded-3" role="alert">
-                Missa deletada com sucesso.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <% } else if (status_delete === "erro") { %>
-                <div id="mensagem_erro" class="w-50 mx-auto text-center alert alert-danger alert-dismissible fade-show border rounded-3" role="alert">
-                Ocorreu algum erro ao deletar a missa.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+            Ocorreu algum erro ao registrar a missa.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         <% } %>
         <h1 id="data_topo_pagina" class="text text-black fw-semibold text-center">Data: <%= data_atual %></h1>
         <div class="container border-top border-primary border-5 shadow-lg rounded-3">
@@ -62,7 +51,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">    
-                <form method="POST" id="form_edit_missas" action="/missas/especifica/edit/?data_atual=<%= data_atual %>&status_edit=<%=status_edit%>">      
+                <form method="POST" id="form_edit_missas" action="/missas/especifica/edit/?data_atual=<%= data_atual %>">      
                     <input type="hidden" name="_method" value="PUT">
                     <input type="hidden" name="id" id="missa_id_form" value="0">
     
