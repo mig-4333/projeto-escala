@@ -3,16 +3,22 @@
 
 <div class="row justify-content-center">
     <div class="col-lg-6 shadow-lg rounded-3 bg-light my-5 py-5 rounded-3 shadow-lg border-top border-primary border-5">
-        <% if (status === "sucesso") { %>
-        <div id="mensagem_sucesso" class="w-50 mx-auto text-center alert alert-success alert-dismissible fade-show border rounded-3" role="alert">
-            Missa registrada com sucesso.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <% } else if (status === "erro") { %>
-            <div id="mensagem_erro" class="w-50 mx-auto text-center alert alert-danger alert-dismissible fade-show border rounded-3" role="alert">
-            Ocorreu algum erro ao registrar a missa.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+        <% if (success && success.length > 0) { %>
+            <% success.forEach(function(msg) { %>
+                <div class="alert alert-success alert-dismissible fade show text-center my-2" role="alert">
+                    <%= msg %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <% }) %>
+        <% } %>
+
+        <% if (error && error.length > 0) { %>
+            <% error.forEach(function(msg) { %>
+                <div class="alert alert-danger alert-dismissible fade show text-center my-2" role="alert">
+                    <%= msg %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <% }) %>
         <% } %>
         <h2 class="text text-center">Insira abaixo os dados da missa recorrente</h2>
         <form method="POST">
