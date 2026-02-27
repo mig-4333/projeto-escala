@@ -64,11 +64,11 @@ export const new_missaPOST = async (req,res) => {
         const dados_missa = { id_pastoral, ...req.body};
         await Missa.criaMissa(dados_missa);
         req.flash("success", "Missa criada com sucesso.");
-        res.redirect("form_missa");
+        res.redirect("/missas/new");
     }
     catch (error) {
         req.flash("error", "Ocorreu algum erro ao criar a missa.");
-        res.redirect("form_missa");
+        res.redirect("/missas/new");
     };
 };
 
@@ -88,11 +88,12 @@ export const new_missa_recorrentePOST = async (req,res) => {
         const id_pastoral = req.session.pastoral_id;
         const dados_missa = { id_pastoral, ...req.body };
         await Missa.criaMissaRecorrente(dados_missa);
-        res.render("form_missa_recorrente");
+        req.flash("success", "Missa recorrente criada com sucesso.");
+        res.redirect("/missas/new_recorrente");
     }
     catch (error) {
         req.flash("error", "Ocorreu algum erro ao criar missa recorrente.");
-        res.redirect("form_missa_recorrente");
+        res.redirect("/missas/new_recorrente");
     };
 };
 
