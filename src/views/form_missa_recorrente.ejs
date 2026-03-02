@@ -89,12 +89,18 @@
                 </div>
             </div>
             <div class="container row mt-3">
+                <div id="mensagem_data_vazio" class="alert alert-danger my-2 text-center" style="display: none">
+                    Campo "Data" não pode ser vazio. 
+                </div>
+                <div id="mensagem_data_formato" class="alert alert-danger my-2 text-center" style="display: none">
+                    Campo "Data" deve corresponder a uma data válida. 
+                </div>
                 <div class="col form-floating">
-                    <input class="form-control" type="date" id="data_inicial_missa" class="datas_missa" placeholder="Data" name="data_inicial">
+                    <input class="form-control datas_missa" type="date" id="data_inicial_missa" class="datas_missa" placeholder="Data" name="data_inicial">
                     <label for="data_inicial_missa">Data Inicial: </label>
                 </div>
                 <div class="col form-floating">
-                    <input class="form-control" type="date" id="data_final_missa" class="datas_missa" placeholder="Data" name="data_final">
+                    <input class="form-control datas_missa" type="date" id="data_final_missa" class="datas_missa" placeholder="Data" name="data_final">
                     <label for="data_final_missa">Data Final: </label>
                 </div>
             </div>
