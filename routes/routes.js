@@ -4,6 +4,7 @@ import * as homeController from "../src/controllers/homeControllers.js";
 import * as escalaController from "../src/controllers/escalaControllers.js";
 import * as liderancaController from "../src/controllers/liderancaControllers.js";
 import * as missaController from "../src/controllers/missaControllers.js";
+import * as disponibilidadeController from "../src/controllers/disponibilidadeControllers.js"
 import * as loginController from "../src/middlewares/middlewares.js";
 
 const router = express.Router()
@@ -32,6 +33,10 @@ router.post("/missas/new_recorrente",loginController.protegerRotas, missaControl
 router.get("/missas/especifica",loginController.protegerRotas, missaController.data_especificaGET);  
 router.get("/missas/especifica/delete", loginController.protegerRotas, missaController.missaDELETE);
 router.put("/missas/especifica/edit",loginController.protegerRotas, missaController.missaPUT);
+
+// ------------------ DISPONIBILIDADE ------------------
+router.get("/disponibilidade", loginController.protegerRotas, disponibilidadeController.disponibilidadeGET);
+
 
 // ------------------ ESCALA ------------------
 router.get("/escala", escalaController.escalasGET);

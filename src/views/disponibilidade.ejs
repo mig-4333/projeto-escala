@@ -1,0 +1,47 @@
+<%- include("includes/header"); %>
+<%- include("includes/navbar"); %>
+
+    <div class="border border-dark border-2 rounded-3 shadow-lg mx-5 mt-5 p-2">
+        <table class="table table-hover align-middle caption-top">
+            <thead>
+                <tr>
+                    <th class="col">Título</th>
+                    <th class="col">Data</th>
+                    <th class="col">Hora</th>
+                    <th class="col">Disponibilidades</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                <% missas.forEach(missa => {  %>
+                    <tr>
+                        <th><%= missa.titulo %></th>
+                        <th><%= missa.data %></th>
+                        <th><%= missa.hora %></th>
+                        <th><a href="#" data-bs-toggle="modal" data-bs-target="#modal_edicao">Registrar Disponibilidade</a></th>
+                    </tr>
+                <% });  %>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal" id="modal_edicao" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">        
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="text pt-1">Disponibilidade Das Lideranças</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>      
+                <div class="modal-body">                                 
+                    <form method="POST" id="form_edicao_lideranca" action="/liderancas/edit">
+                        <% liderancas.forEach((lideranca) => {  %>
+                            <%=  lideranca.nome  %>
+                        <% }); %>
+                    </form>
+                </div>                   
+            </div>          
+        </div>
+    </div>
+
+
+
+<%- include("includes/footer"); %>
