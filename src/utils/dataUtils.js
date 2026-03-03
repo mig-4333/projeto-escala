@@ -21,7 +21,14 @@ class DataHelpers {
         const dataOBJ = new Date(data_hora);
         const horario = dataOBJ.toLocaleTimeString().slice(0,5); 
         return horario;
-    }
+    };
+
+    static getDataFormatada(dataISO){
+        // Obtém a data formatada para exibição (DD/MM/YYYY) a partir de uma data (YYYY-MM-DDTHH:mm:ss) 
+        const dataObj = new Date(dataISO);
+        const dataFormatada = dataObj.toLocaleDateString("pt-BR");
+        return dataFormatada;
+    };
 
     static somaDia(dia){   
         const diaOBJ = new Date(dia); 
