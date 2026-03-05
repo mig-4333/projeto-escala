@@ -4,9 +4,14 @@ import DataHelpers from "../utils/dataUtils.js";
 class Missa {    
     static async buscaMissas(id_pastoral){
         try{
-            return await prisma.missa.findMany({
+            const missas = await prisma.missa.findMany({
                 where: { id_pastoral: id_pastoral}
             });
+            for (let missa of missas){
+                missa.data = DataHelpers.getDataFormatada(missa.data_hora);
+                missa.horario = DataHelpers.getHorario(missa.data_hora);
+            };
+            return missas;
         }
         catch (error){
             throw error;
@@ -14,8 +19,8 @@ class Missa {
     };
 
     static async buscaMissasData(id_pastoral, data){
-        const dataOBJ = DataHelpers.getDataISO(data)
         try{
+            const dataOBJ = DataHelpers.getDataISO(data);
             const missas =  await prisma.missa.findMany({
                 where: { AND: [
                     { id_pastoral: id_pastoral},
@@ -23,8 +28,11 @@ class Missa {
                     { data_hora: { lt: DataHelpers.somaDia(dataOBJ) }}
                 ]
             }});
-            for (let missa of missas) missa.horario = DataHelpers.getHorario(missa.data_hora);  
-            return missas 
+            for (let missa of missas) {
+                missa.data = DataHelpers.getDataFormatada(missa.data_hora);
+                missa.horario = DataHelpers.getHorario(missa.data_hora);
+            };  
+            return missas; 
         }
         catch (error) {
             throw error;
@@ -64,7 +72,7 @@ class Missa {
         }
         catch (error) {
             throw error;
-        }
+        };
     };
 
     static async criaMissa(dados_missa){
@@ -78,8 +86,8 @@ class Missa {
                     qtd_min_liderancas: qtd_min,
                     descricao: dados_missa.desc,
                     titulo: dados_missa.titulo
-                }}
-        )}
+                }});
+            }
         catch (error){
             throw error;
         };
@@ -119,9 +127,9 @@ class Missa {
         catch (error){
             console.log(error)
             throw error;
-        }
-    }
+        };
+    };
 
-}
+};
 
 export default Missa;
