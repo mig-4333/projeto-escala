@@ -8,14 +8,14 @@ datasource db {
 }
 
 model disponibilidade_lideranca {
-  id             Int       @id(map: "pk_disponibilidade_lideranca") @default(autoincrement())
-  id_lideranca   Int?
-  mes_referencia String    @db.VarChar(20)
-  qtd_max_missas Int
-  id_pastoral    Int?
-  status         String?   @db.VarChar(20)
-  lideranca      lideranca @relation(fields: [id], references: [id], onUpdate: Restrict, map: "fk_disponibilidade_lideranca")
-  pastoral       pastoral? @relation(fields: [id_pastoral], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_disponibilidade_lideranca_id_pastoral")
+  id           Int       @id(map: "pk_disponibilidade_lideranca") @default(autoincrement())
+  id_lideranca Int?
+  id_pastoral  Int?
+  status       String?   @db.VarChar(20)
+  id_missa     Int?
+  lideranca    lideranca @relation(fields: [id], references: [id], onUpdate: Restrict, map: "fk_disponibilidade_lideranca")
+  pastoral     pastoral? @relation(fields: [id_pastoral], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_disponibilidade_lideranca_id_pastoral")
+  missa        missa?    @relation(fields: [id_missa], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_id_missa")
 
   @@index([id], map: "fki_d")
 }
@@ -42,15 +42,16 @@ model lideranca_missa {
 }
 
 model missa {
-  id                 Int               @id(map: "pk_missa") @default(autoincrement())
-  data_hora          DateTime          @db.Timestamp(6)
-  qtd_min_liderancas Int
-  descricao          String?           @db.VarChar(200)
-  titulo             String?           @db.VarChar(200)
-  id_pastoral        Int?
-  lideranca_missa    lideranca_missa[]
-  pastoral           pastoral?         @relation(fields: [id_pastoral], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_missa")
-  registro_escala    registro_escala[]
+  id                        Int                         @id(map: "pk_missa") @default(autoincrement())
+  data_hora                 DateTime                    @db.Timestamp(6)
+  qtd_min_liderancas        Int
+  descricao                 String?                     @db.VarChar(200)
+  titulo                    String?                     @db.VarChar(200)
+  id_pastoral               Int?
+  disponibilidade_lideranca disponibilidade_lideranca[]
+  lideranca_missa           lideranca_missa[]
+  pastoral                  pastoral?                   @relation(fields: [id_pastoral], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_missa")
+  registro_escala           registro_escala[]
 }
 
 model pastoral {
