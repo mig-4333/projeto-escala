@@ -13,6 +13,7 @@ model disponibilidade_lideranca {
   mes_referencia String    @db.VarChar(20)
   qtd_max_missas Int
   id_pastoral    Int?
+  status         String?   @db.VarChar(20)
   lideranca      lideranca @relation(fields: [id], references: [id], onUpdate: Restrict, map: "fk_disponibilidade_lideranca")
   pastoral       pastoral? @relation(fields: [id_pastoral], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_disponibilidade_lideranca_id_pastoral")
 
