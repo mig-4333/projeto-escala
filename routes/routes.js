@@ -36,6 +36,8 @@ router.put("/missas/especifica/edit",loginController.protegerRotas, missaControl
 
 // ------------------ DISPONIBILIDADE ------------------
 router.get("/disponibilidade", loginController.protegerRotas, disponibilidadeController.disponibilidadeGET);
+router.get("/disponibilidade/dados/:id", loginController.protegerRotas, disponibilidadeController.buscaDadosModalDisponibilidade);
+router.post("/disponibilidade/post", loginController.protegerRotas, disponibilidadeController.registra_disponibilidade);
 
 
 // ------------------ ESCALA ------------------
