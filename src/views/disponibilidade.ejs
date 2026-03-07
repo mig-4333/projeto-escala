@@ -14,17 +14,19 @@
             <tbody class="table-group-divider">
                 <% missas.forEach(missa => {  %>
                     <tr>
-                        <th><%= missa.titulo %></th>
-                        <th><%= missa.data %></th>
-                        <th><%= missa.hora %></th>
-                        <th><a href="#" data-bs-toggle="modal" data-bs-target="#modal_edicao">Registrar Disponibilidade</a></th>
+                        <th class="px-1 py-3" style="width: 10%"><%= missa.titulo %></th>
+                        <th class="px-1 py-3" style="width: 10%"><%= missa.data %></th>
+                        <th class="px-1 py-3" style="width: 10%"><%= missa.horario %></th>
+                        <th class="px-1 py-3" style="width: 10%">
+                            <a class="botao_mostrar_modal" data-bs-toggle="modal" data-bs-target="#modal_disponibilidade">Registrar Disponibilidade</a>
+                        </th>
+                        <input type="hidden" class="id_missa" name="id_missa" value=<%= missa.id %>>
                     </tr>
                 <% });  %>
             </tbody>
         </table>
     </div>
-
-    <div class="modal" id="modal_edicao" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal modal-lg" id="modal_disponibilidade" data-bs-backdrop="static" data-bs-keyboard="false" >
         <div class="modal-dialog">        
             <div class="modal-content">
                 <div class="modal-header">
@@ -32,16 +34,66 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>      
                 <div class="modal-body">                                 
-                    <form method="POST" id="form_edicao_lideranca" action="/liderancas/edit">
-                        <% liderancas.forEach((lideranca) => {  %>
-                            <%=  lideranca.nome  %>
-                        <% }); %>
+                    <form method="POST" id="form_disponibilidade_lideranca" action="/disponibilidade/post">
+                        <input type="hidden" id="id_missa_modal" name="id_missa" value="">
+                        <div>
+                            <table class="table table-hover align-middle mb-0" data-fixed-columns="true" data-fixed-number="1">
+                                <thead>
+                                    <tr>
+                                        <th class="px-1 py-3 me-right" style="width: 10%" scope="col">ID</th>
+                                        <th class="px-4 py-3" style="width: 35%" scope="col">Nome</th>
+                                        <th class="px-4 py-3" style="width: 35%" scope="col">Disponibilidade</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% liderancas.forEach((lideranca) => {  %>
+                                        <tr>
+                                            <th style="width: 10%"><%= lideranca.id %></th>
+                                            <td style="width: 35%"><%=  lideranca.nome  %></td>
+                                            <td style="width: 35%">
+                                                <div>
+                                                    <input id="range_lideranca_<%= lideranca.id %>" name=<%= lideranca.id %> value="" type="range" class="form-range range range-black" min="0" max="2">
+                                                    <output for="range_lideranca_<%= lideranca.id %>" id="rangeValue" class="output_disponibilidade" aria-hidden="true"></output>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button class="btn btn-primary fw-semibold mt-3 text-center fs-5"><i class="bi bi-save m-1"></i>Salvar</button>
                     </form>
                 </div>                   
             </div>          
         </div>
     </div>
 
+<script src="../../public/js/disponibilidade.js"></script>
 
+<style>
+    .custom-range-container {
+        background-color: #f8f9fa;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    .form-range::-webkit-slider-runnable-track {
+        background-color: #dee2e6; 
+        height: 0.5rem;
+        border-radius: 1rem;
+    }
+
+    
+    .form-range::-moz-range-track {
+        background-color: #dee2e6;
+        height: 0.5rem;
+        border-radius: 1rem;
+    }
+    .form-range::-moz-range-thumb {
+        background-color: #0d6efd;
+        border: 2px solid #fff;
+    }
+
+</style>
 
 <%- include("includes/footer"); %>
